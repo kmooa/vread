@@ -1,0 +1,42 @@
+/*-----Default Button-----*/
+#bootstrap-overrides .btn{
+  outline: none;
+  border: none;
+  color: white;
+  border-radius: 0;
+  padding: .75rem 3rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: none;
+}
+#bootstrap-overrides .btn:active{
+  background-color: rgba(180, 180, 180, 0.34);
+  color: white;
+}
+
+/*-----Empty Button-----*/
+#bootstrap-overrides .emptyButton,
+#bootstrap-overrides .emptyButton:focus,
+#bootstrap-overrides .emptyButton:active{
+  color: black;
+  background: transparent;
+}
+#bootstrap-overrides .emptyButton:hover{
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+#bootstrap-overrides .menu-item-square{
+  width: 50px;
+  height: 50px;
+  padding: 0;
+}
+
+#bootstrap-overrides .menu-item{
+  height: 50px;
+}
+
+[data-reactroot]
+{height: 100% !important; }
+
+canvas {
+  display: block; /* fix necessary to remove space at bottom of canvas */
+}

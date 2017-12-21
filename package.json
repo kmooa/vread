@@ -1,0 +1,36 @@
+{
+  "name": "Playground",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "aframe": "^0.7.0",
+    "aframe-alongpath-component": "^1.0.5",
+    "aframe-animation-component": "^3.2.5",
+    "aframe-environment-component": "^1.0.0",
+    "aframe-extras": "^3.12.4",
+    "aframe-no-click-look-controls": "^1.0.4",
+    "aframe-particle-system-component": "^1.0.10",
+    "aframe-react": "^4.3.0",
+    "aframe-sprite-component": "^0.1.1",
+    "babel-runtime": "^6.20.0",
+    "bcrypt": "^1.0.1",
+    "glslify": "^6.1.0",
+    "immutable": "^3.8.2",
+    "meteor-node-stubs": "~0.2.0",
+    "normalize.css": "^7.0.0",
+    "react": "^15.6.2",
+    "react-addons-pure-render-mixin": "^15.4.1",
+    "react-bootstrap": "^0.31.2",
+    "react-copy-to-clipboard": "^5.0.1",
+    "react-custom-scrollbars": "^4.2.1",
+    "react-dom": "^15.6.2",
+    "react-redux": "^5.0.3",
+    "react-router": "^4.2.0",
+    "react-router-bootstrap": "^0.24.4",
+    "react-router-dom": "^4.0.0",
+    "react-scroll": "^1.4.5",
+    "redux": "^3.7.2"
+  }
+}
