@@ -1,12 +1,12 @@
-var registerComponent = AFRAME.registerComponent;
-var THREE = window.THREE;
-var DEFAULT_CAMERA_HEIGHT = AFRAME.DEFAULT_CAMERA_HEIGHT;
-var bind = AFRAME.utils.bind;
+let registerComponent = AFRAME.registerComponent;
+let THREE = window.THREE;
+let DEFAULT_CAMERA_HEIGHT = AFRAME.DEFAULT_CAMERA_HEIGHT;
+let bind = AFRAME.utils.bind;
 
 // To avoid recalculation at every mouse movement tick
-var GRABBING_CLASS = 'a-grabbing';
-var PI_2 = Math.PI / 2;
-var radToDeg = THREE.Math.radToDeg;
+let GRABBING_CLASS = 'a-grabbing';
+let PI_2 = Math.PI / 2;
+let radToDeg = THREE.Math.radToDeg;
 
 /**
  * look-controls. Update entity pose, factoring mouse, touch, and WebVR API data.
@@ -25,7 +25,7 @@ module.exports.Component = registerComponent('restricted-look-controls', {
     },
 
     init: function () {
-        var sceneEl = this.el.sceneEl;
+        let sceneEl = this.el.sceneEl;
 
         this.previousHMDPosition = new THREE.Vector3();
         this.hmdQuaternion = new THREE.Quaternion();
@@ -45,7 +45,7 @@ module.exports.Component = registerComponent('restricted-look-controls', {
     },
 
     update: function (oldData) {
-        var data = this.data;
+        let data = this.data;
 
         // Disable grab cursor classes if no longer enabled.
         if (data.enabled !== oldData.enabled) {
@@ -60,7 +60,7 @@ module.exports.Component = registerComponent('restricted-look-controls', {
     },
 
     tick: function (t) {
-        var data = this.data;
+        let data = this.data;
         if (!data.enabled) { return; }
         this.controls.standing = data.standing;
         this.controls.userHeight = this.getUserHeight();
@@ -73,7 +73,7 @@ module.exports.Component = registerComponent('restricted-look-controls', {
      * Return user height to use for standing poses, where a device doesn't provide an offset.
      */
     getUserHeight: function () {
-        var el = this.el;
+        let el = this.el;
         return el.hasAttribute('camera')
             ? el.getAttribute('camera').userHeight
             : DEFAULT_CAMERA_HEIGHT;
@@ -126,8 +126,8 @@ module.exports.Component = registerComponent('restricted-look-controls', {
      * Add mouse and touch event listeners to canvas.
      */
     addEventListeners: function () {
-        var sceneEl = this.el.sceneEl;
-        var canvasEl = sceneEl.canvas;
+        let sceneEl = this.el.sceneEl;
+        let canvasEl = sceneEl.canvas;
 
         // Wait for canvas to load.
         if (!canvasEl) {
@@ -150,8 +150,8 @@ module.exports.Component = registerComponent('restricted-look-controls', {
      * Remove mouse and touch event listeners from canvas.
      */
     removeEventListeners: function () {
-        var sceneEl = this.el.sceneEl;
-        var canvasEl = sceneEl && sceneEl.canvas;
+        let sceneEl = this.el.sceneEl;
+        let canvasEl = sceneEl && sceneEl.canvas;
 
         if (!canvasEl) { return; }
 
@@ -172,14 +172,14 @@ module.exports.Component = registerComponent('restricted-look-controls', {
      * Mouse-drag only enabled if HMD is not active.
      */
     updateOrientation: function () {
-        var currentRotation;
-        var deltaRotation = this.deltaRotation;
-        var hmdEuler = this.hmdEuler;
-        var hmdQuaternion = this.hmdQuaternion;
-        var pitchObject = this.pitchObject;
-        var yawObject = this.yawObject;
-        var sceneEl = this.el.sceneEl;
-        var rotation = this.rotation;
+        let currentRotation;
+        let deltaRotation = this.deltaRotation;
+        let hmdEuler = this.hmdEuler;
+        let hmdQuaternion = this.hmdQuaternion;
+        let pitchObject = this.pitchObject;
+        let yawObject = this.yawObject;
+        let sceneEl = this.el.sceneEl;
+        let rotation = this.rotation;
 
         // Calculate HMD quaternion.
         hmdQuaternion = hmdQuaternion.copy(this.dolly.quaternion);
@@ -194,11 +194,11 @@ module.exports.Component = registerComponent('restricted-look-controls', {
             let maxPitch = parseInt(this.data.maxPitch),
                 maxYaw = parseInt(this.data.maxYaw);
 
-            if(this.data.maxPitch != "" && Math.abs(rotation.x) > maxPitch) {
+            if(this.data.maxPitch !== "" && Math.abs(rotation.x) > maxPitch) {
                 rotation.x = radToDeg(hmdEuler.x) > 0 ? maxPitch : -1 * maxPitch;
             }
 
-            if(this.data.maxYaw != "" && (Math.abs(rotation.y)) > maxYaw) {
+            if(this.data.maxYaw !== "" && (Math.abs(rotation.y)) > maxYaw) {
                 rotation.y = radToDeg(hmdEuler.y) > 0 ? maxYaw : -1 * maxYaw;
             }
 
@@ -219,11 +219,11 @@ module.exports.Component = registerComponent('restricted-look-controls', {
             let maxPitch = parseInt(this.data.maxPitch),
                 maxYaw = parseInt(this.data.maxYaw);
 
-            if(this.data.maxPitch != "" && Math.abs(rotation.x) > maxPitch) {
+            if(this.data.maxPitch !== "" && Math.abs(rotation.x) > maxPitch) {
                 rotation.x = currentRotation.x > 0 ? maxPitch : -1 * maxPitch;
             }
 
-            if(this.data.maxYaw != "" && (Math.abs(rotation.y)) > maxYaw) {
+            if(this.data.maxYaw !== "" && (Math.abs(rotation.y)) > maxYaw) {
                 rotation.y = currentRotation.y > 0 ? maxYaw : -1 * maxYaw;
             }
         } else {
@@ -235,11 +235,11 @@ module.exports.Component = registerComponent('restricted-look-controls', {
             let maxPitch = parseInt(this.data.maxPitch),
                 maxYaw = parseInt(this.data.maxYaw);
 
-            if(this.data.maxPitch != "" && Math.abs(rotation.x) > maxPitch) {
+            if(this.data.maxPitch !== "" && Math.abs(rotation.x) > maxPitch) {
                 rotation.x = radToDeg(hmdEuler.x) > 0 ? maxPitch : -1 * maxPitch;
             }
 
-            if(this.data.maxYaw != "" && (Math.abs(rotation.y)) > maxYaw) {
+            if(this.data.maxYaw !== "" && (Math.abs(rotation.y)) > maxYaw) {
                 rotation.y = radToDeg(hmdEuler.y) > 0 ? maxYaw : -1 * maxYaw;
             }
         }
@@ -251,7 +251,7 @@ module.exports.Component = registerComponent('restricted-look-controls', {
      * Validate angle of camera compared to given maxYaw and maxPitch
      */
     checkRange(pitch, yaw){
-        var maxPitch = parseInt(this.data.maxPitch),
+        let maxPitch = parseInt(this.data.maxPitch),
             maxYaw = parseInt(this.data.maxYaw);
 
         if(this.data.maxPitch != "" && Math.abs(rotation.x) > maxPitch) {
@@ -273,8 +273,8 @@ module.exports.Component = registerComponent('restricted-look-controls', {
      * Calculate delta rotation for mouse-drag and touch-drag.
      */
     calculateDeltaRotation: function () {
-        var currentRotationX = radToDeg(this.pitchObject.rotation.x);
-        var currentRotationY = radToDeg(this.yawObject.rotation.y);
+        let currentRotationX = radToDeg(this.pitchObject.rotation.x);
+        let currentRotationY = radToDeg(this.yawObject.rotation.y);
         this.deltaRotation.x = currentRotationX - (this.previousRotationX || 0);
         this.deltaRotation.y = currentRotationY - (this.previousRotationY || 0);
         // Store current rotation for next tick.
@@ -287,12 +287,12 @@ module.exports.Component = registerComponent('restricted-look-controls', {
      * Handle positional tracking.
      */
     updatePosition: function () {
-        var el = this.el;
-        var currentHMDPosition;
-        var currentPosition;
-        var position = this.position;
-        var previousHMDPosition = this.previousHMDPosition;
-        var sceneEl = this.el.sceneEl;
+        let el = this.el;
+        let currentHMDPosition;
+        let currentPosition;
+        let position = this.position;
+        let previousHMDPosition = this.previousHMDPosition;
+        let sceneEl = this.el.sceneEl;
 
         if (!sceneEl.is('vr-mode')) { return; }
 
@@ -310,7 +310,7 @@ module.exports.Component = registerComponent('restricted-look-controls', {
      * Get headset position from VRControls.
      */
     calculateHMDPosition: (function () {
-        var position = new THREE.Vector3();
+        let position = new THREE.Vector3();
         return function () {
             this.dolly.updateMatrix();
             position.setFromMatrixPosition(this.dolly.matrix);
@@ -325,11 +325,11 @@ module.exports.Component = registerComponent('restricted-look-controls', {
      * Dragging left and right rotates the camera around the Y-axis (pitch).
      */
     onMouseMove: function (event) {
-        var pitchObject = this.pitchObject;
-        var yawObject = this.yawObject;
-        var previousMouseEvent = this.previousMouseEvent;
-        var movementX;
-        var movementY;
+        let pitchObject = this.pitchObject;
+        let yawObject = this.yawObject;
+        let previousMouseEvent = this.previousMouseEvent;
+        let movementX;
+        let movementY;
 
         // Not dragging or not enabled.
         if (!this.mouseDown || !this.data.enabled) { return; }
@@ -385,9 +385,9 @@ module.exports.Component = registerComponent('restricted-look-controls', {
      * Translate touch move to Y-axis rotation.
      */
     onTouchMove: function (evt) {
-        var canvas = this.el.sceneEl.canvas;
-        var deltaY;
-        var yawObject = this.yawObject;
+        let canvas = this.el.sceneEl.canvas;
+        let deltaY;
+        let yawObject = this.yawObject;
 
         if (!this.touchStarted || !this.data.touchEnabled) { return; }
 
@@ -416,7 +416,7 @@ module.exports.Component = registerComponent('restricted-look-controls', {
      * Toggle the feature of showing/hiding the grab cursor.
      */
     updateGrabCursor: function (enabled) {
-        var sceneEl = this.el.sceneEl;
+        let sceneEl = this.el.sceneEl;
 
         function enableGrabCursor () { sceneEl.canvas.classList.add('a-grab-cursor'); }
         function disableGrabCursor () { sceneEl.canvas.classList.remove('a-grab-cursor'); }

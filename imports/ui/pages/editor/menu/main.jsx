@@ -31,7 +31,7 @@ export default class Menu extends React.Component {
                 <Row className="show-grid">
                     <Controls/>
                 </Row>
-                <Row className="show-grid"  style={{background: "rgba(0, 0, 0, 0.26)", paddingBottom: "5px"}}>
+                <Row className="show-grid"  style={{background: "rgba(0, 0, 0, 0.50)", paddingBottom: "5px"}}>
                     <Scenes/>
                     <Objects/>
                     <Sprites/>
