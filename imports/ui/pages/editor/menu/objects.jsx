@@ -8,7 +8,7 @@ import {bindActionCreators} from 'redux';
 import * as Actions from "../../../../actions/main";
 import {Button, ButtonToolbar} from 'react-bootstrap';
 
-var objects = ["griffin", 'bear', 'fox']
+let objects = ["griffin", 'bear', 'fox']
 
 class Objects extends React.Component{
 
@@ -17,7 +17,7 @@ class Objects extends React.Component{
     }
 
     getCoordinate(levels){
-        var x, y, z;
+        let x, y, z;
 
         x = Math.floor(Math.random() *8) - 4;
         y = Math.floor(Math.random() * 7) + 2;
@@ -36,7 +36,7 @@ class Objects extends React.Component{
 
     createObject(type){
 
-        var object;
+        let object;
 
         switch(type){
             case "griffin" :
@@ -76,9 +76,9 @@ class Objects extends React.Component{
 
     render(){
 
-        var self = this;
+        let self = this;
 
-        var Objects = objects.map(function(elem){
+        let Objects = objects.map(function(elem){
             return (
                 <Button key = {elem}
                         className="menu-item"

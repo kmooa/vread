@@ -1,0 +1,22 @@
+# MTL written from C:\Users\user\Desktop\0 Cubros\3D\BG\BG_01_merge_test.obj
+newmtl leaves
+Kd 0.0343398 0.152926 0.0295569
+Ns 4096
+d 1
+illum 1
+Ka 0 0 0
+Ks 0 0 0
+newmtl rock
+Kd 0.215861 0.215861 0.215861
+Ns 4096
+d 1
+illum 1
+Ka 0 0 0
+Ks 0 0 0
+newmtl trunk
+Kd 0.126582 0.0599166 0.0404121
+Ns 4096
+d 1
+illum 1
+Ka 0 0 0
+Ks 0 0 0

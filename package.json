@@ -5,7 +5,8 @@
     "start": "meteor run"
   },
   "dependencies": {
-    "aframe": "^0.7.0",
+    "@babel/runtime": "^7.0.0-beta.39",
+    "aframe": "^0.7.1",
     "aframe-alongpath-component": "^1.0.5",
     "aframe-animation-component": "^3.2.5",
     "aframe-environment-component": "^1.0.0",
@@ -14,8 +15,8 @@
     "aframe-particle-system-component": "^1.0.10",
     "aframe-react": "^4.3.0",
     "aframe-sprite-component": "^0.1.1",
-    "babel-runtime": "^6.20.0",
     "bcrypt": "^1.0.1",
+    "fast-deep-equal": "^1.0.0",
     "glslify": "^6.1.0",
     "immutable": "^3.8.2",
     "meteor-node-stubs": "~0.2.0",

@@ -9,59 +9,59 @@ export const Links = new Mongo.Collection('links');
 
 Meteor.methods({
 
-    generateLink(environment, particles, userBackground, object, sprite){
-        var url = GenerateLink();
+  generateLink(environment, particles, userBackground, object, game){
+    let url = GenerateLink();
 
-        while(Links.findOne({url: url})){
-            url =  GenerateLink();
-        }
-
-        Links.insert({
-            environment,
-            particles,
-            userBackground,
-            object,
-            sprite,
-            url,
-            createdAt: new Date()
-        });
-
-        console.log("NEW LINK:", url);
-
-        return url;
+    while(Links.findOne({url: url})){
+      url =  GenerateLink();
     }
+
+    Links.insert({
+      environment,
+      particles,
+      userBackground,
+      object,
+      game,
+      url,
+      createdAt: new Date()
+    });
+
+    console.log("NEW LINK:", url);
+
+    return url;
+  }
 
 });
 
 Meteor.methods({
 
-    getLinkData(url){
-        console.log(url);
+  getLinkData(url){
+    console.log(url);
 
-        var item = Links.findOne({url: url});
+    let item = Links.findOne({url: url});
 
-        if(item){
-            console.log("FOUND");
-            return {
-                environment: item.environment,
-                particles: item.particles,
-                userBackground: item.userBackground,
-                object: item.object,
-                sprite: item.sprite,
-            };
-        }
-        else{
-            return "Not Found";
-        }
+    if(item){
+      console.log("FOUND");
+      return {
+        environment: item.environment,
+        particles: item.particles,
+        userBackground: item.userBackground,
+        object: item.object,
+        game: item.game,
+      };
     }
+    else{
+      return "Not Found";
+    }
+  }
 
 });
 
 Meteor.methods({
 
-    deleteLink(address){
-        var id = Links.find({url: address});
-        Links.remove(id);
-    }
+  deleteLink(address){
+    let id = Links.find({url: address});
+    Links.remove(id);
+  }
 
 });

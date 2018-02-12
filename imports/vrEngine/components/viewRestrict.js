@@ -21,7 +21,7 @@ module.exports.Component = registerComponent('restricted-look-controls', {
         touchEnabled: {default: true},
         hmdEnabled: {default: true},
         reverseMouseDrag: {default: false},
-        standing: {default: true}
+        standing: {default  : true}
     },
 
     init: function () {

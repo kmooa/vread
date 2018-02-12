@@ -7,10 +7,13 @@ export const OBJECT_SET = "OBJECT_SET";
 export const OBJECT_UNSET = "OBJECT_UNSET";
 
 //SPRITES Action Constants
-export const SPRITES_USER_ADD = "SPRITES_USER_ADD";
-export const SPRITES_SET = "SPRITES_SET";
-export const SPRITES_TOGGLE = "SPRITES_TOGGLE";
-export const SPRITES_UNSET = "SPRITES_UNSET";
+export const GAMES_MENU_CHANGE = "GAMES_MENU_CHANGE";
+export const GAMES_ADD = "GAMES_ADD";
+export const GAMES_REMOVE = "GAMES_REMOVE";
+export const GAMES_SET = "GAMES_SET";
+export const GAMES_SET_IN = "GAMES_SET_IN";
+export const GAMES_TOGGLE = "GAMES_TOGGLE";
+export const GAMES_UNSET = "GAMES_UNSET";
 
 //STAGE Action Constants
 export const STAGE_USER_ADD = "STAGE_USER_ADD";

@@ -3,29 +3,30 @@
  */
 
 import * as types from '../constants/actionTypes';
-import {fromJS} from 'immutable';
 
-const DEFAULT_STATE = fromJS({
-    activeObject: null
-});
+const DEFAULT_STATE = {
+  activeObject: null
+};
 
 function selection(state = DEFAULT_STATE, action) {
 
-    var newState;
+  switch (action.type) {
 
-    switch (action.type) {
-
-        case types.OBJECT_SET:
-            newState = state.set("activeObject", action.value);
-            return fromJS(newState);
-
-        case types.OBJECT_UNSET:
-            newState = state.set("activeObject", null);
-            return fromJS(newState);
-
-        default:
-            return state;
+    case types.OBJECT_SET:{
+      let newState = JSON.parse(JSON.stringify(state));
+      newState.activeObject = action.value;
+      return newState;
     }
+
+    case types.OBJECT_UNSET:{
+      let newState = JSON.parse(JSON.stringify(state));
+      newState.activeObject = null;
+      return newState;
+    }
+
+    default:
+      return state;
+  }
 
 }
 

@@ -11,6 +11,7 @@ import { withRouter } from 'react-router-dom'
 
 import Menu from './menu/main'
 import Engine from '/imports/vrEngine/main';
+import equal from 'fast-deep-equal';
 
 class App extends React.Component {
 
@@ -19,18 +20,23 @@ class App extends React.Component {
     this.state = {vr: false};
   }
 
+  componentDidMount() {
+    this.props.actions.editSettings("mode", "edit");
+  }
+
   preview(){
 
     this.props.history.push({
       pathname: '/viewer/preview',
       state: {
         environment: this.props.environment,
+        particles: this.props.particles,
         userBackground: this.props.userBackground,
-        particles: this.props.particles == "none" ? "none" : this.props.particles.toJSON(),
         object: this.props.object,
-        sprite: this.props.sprites
+        game: this.props.game
       }
     })
+    this.props.actions.editSettings("mode", "view");
   }
 
   render () {
@@ -57,7 +63,7 @@ class App extends React.Component {
           </Row>
         </Grid>
 
-        <Engine {...this.props} mode="edit"/>
+        <Engine {...this.props}/>
 
         <Menu hide={this.state.vr}/>
 
@@ -74,16 +80,17 @@ function selector(dispatch) {
 
     const nextResult = {
       settings: nextState.settings,
-      environment: nextState.stage.get("scene").get("environment"),
-      particles: nextState.stage.get("scene").get("particles"),
-      userBackground: nextState.stage.get("activeCustom"),
-      object: nextState.objects.get("activeObject"),
-      sprites: nextState.sprites.get("activeSprites"),
+      mode: nextState.settings.mode,
+      environment: nextState.stage.scene.environment,
+      particles: nextState.stage.scene.particles,
+      userBackground: nextState.stage.activeCustom,
+      object: nextState.objects.activeObject,
+      game: nextState.games.game,
       actions: actions,
       ...nextOwnProps
     };
 
-    if(nextResult!=result){
+    if(!equal(nextResult, result)){
       result = nextResult;
     }
     return result

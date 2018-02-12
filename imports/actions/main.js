@@ -8,90 +8,113 @@ import * as types from '../constants/actionTypes';
 
 export const setObject = (object) => {
 
-    return {
-        type: types.OBJECT_SET,
-        value: object
-    }
+  return {
+    type: types.OBJECT_SET,
+    value: object
+  }
 };
 
 export const unsetObject = () => {
 
-    return {
-        type: types.OBJECT_UNSET
-    }
+  return {
+    type: types.OBJECT_UNSET
+  }
 };
 
+//***** Games Redux Actions *****//
 
-//***** Sprite Redux Actions *****//
-
-export const addUserSprite = (img) => {
-    return {
-        type: types.SPRITES_USER_ADD,
-        value: img
-    }
+export const removeGame = (path) => {
+  return {
+    type: types.GAMES_ADD,
+    path: path
+  }
 };
 
-export const setSprites = (sprite) => {
-
-    return {
-        type: types.SPRITES_SET,
-        value: sprite
-    }
+export const changeGameMenu = (menu) => {
+  return {
+    type: types.GAMES_MENU_CHANGE,
+    menu: menu
+  }
 };
 
-export const unsetSprites = () => {
-
-    return {
-        type: types.SPRITES_UNSET
-    }
+export const addGame = (key, obj) => {
+  return {
+    type: types.GAMES_ADD,
+    key: key,
+    obj: obj
+  }
 };
 
-export const toggleSprites = (state) => {
+export const setInGame = (path, data) => {
 
-    return {
-        type: types.SPRITES_TOGGLE,
-        value: state
-    }
+  return {
+    type: types.GAMES_SET_IN,
+    path: path,
+    data: data
+  }
+};
+
+export const setGame = (data) => {
+
+  return {
+    type: types.GAMES_SET,
+    data: data
+  }
+};
+
+export const unsetGame = () => {
+
+  return {
+    type: types.GAMES_UNSET
+  }
+};
+
+export const toggleGame = (state) => {
+
+  return {
+    type: types.GAMES_TOGGLE,
+    state: state
+  }
 };
 
 
 //***** Stage Redux Actions *****//
 
 export const addUserStage = (img) => {
-    return {
-        type: types.STAGE_USER_ADD,
-        value: img
-    }
+  return {
+    type: types.STAGE_USER_ADD,
+    value: img
+  }
 };
 
 export const setUserStage = (img) => {
-    return {
-        type: types.STAGE_USER_SET,
-        value: img
-    }
+  return {
+    type: types.STAGE_USER_SET,
+    value: img
+  }
 };
 
 export const setStageScene = (scene) => {
-    return {
-        type: types.STAGE_SCENE_SET,
-        value: scene
-    }
+  return {
+    type: types.STAGE_SCENE_SET,
+    value: scene
+  }
 };
 
 export const setStageParticles = (particle) => {
-    return {
-        type: types.STAGE_PARTICLES_SET,
-        value: particle
-    }
+  return {
+    type: types.STAGE_PARTICLES_SET,
+    value: particle
+  }
 };
 
 
 //***** Settings Redux Actions *****//
 
 export const editSettings = (id, value) =>{
-    return {
-        type: types.SETTINGS_EDIT,
-        id: id,
-        value: value
-    }
+  return {
+    type: types.SETTINGS_EDIT,
+    id: id,
+    value: value
+  }
 };

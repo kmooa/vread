@@ -2,15 +2,15 @@
  * Created by JohnBae on 7/1/17.
  */
 
-import scenes from './stage';
+import stage from './stage';
 import settings from './settings';
 import objects from './objects';
-import sprites from './sprites';
+import games from './games';
 import { combineReducers } from 'redux'
 
 export default combineReducers({
-    stage: scenes,
+    stage,
     objects,
-    sprites,
+    games,
     settings
 })

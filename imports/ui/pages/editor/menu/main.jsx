@@ -7,8 +7,8 @@ import {Button, ButtonToolbar, Grid, Row} from 'react-bootstrap';
 import {connectAdvanced} from "react-redux";
 
 import Objects from './objects';
-import Sprites from './sprites';
-import Scenes from './stage';
+import Games from './games';
+import Stage from './stage';
 import Controls from './controls';
 import Share from './share';
 
@@ -32,9 +32,9 @@ export default class Menu extends React.Component {
                     <Controls/>
                 </Row>
                 <Row className="show-grid"  style={{background: "rgba(0, 0, 0, 0.50)", paddingBottom: "5px"}}>
-                    <Scenes/>
+                    <Stage/>
                     <Objects/>
-                    <Sprites/>
+                    <Games/>
                 </Row>
             </Grid>
         );

@@ -28,13 +28,18 @@ export default class App extends React.Component {
                        display: "block",
                        verticalAlign: "middle",
                        height: "10rem",
-                   }}src="/assets/vread.svg"/>
+                   }}src="/assets/vread.svg" className="animatedImage"/>
                    <h1 style={{textAlign: "center", color: "white"}}>Welcome to Vread!</h1>
-                   <NavLink to="/editor">
-                       <Button style={{margin: "auto", display: "block"}}>
-                           Start Editor
+                   <ButtonToolbar>
+                       <NavLink to="/editor">
+                           <Button style={{margin: "auto", display: "block"}}>
+                               Start Editor
+                           </Button>
+                       </NavLink>
+                       <Button style={{margin: "auto", display: "block", marginLeft: '.5rem'}} disabled>
+                           Browse Content
                        </Button>
-                   </NavLink>
+                   </ButtonToolbar>
                </div>
 
             </div>

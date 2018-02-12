@@ -12,12 +12,11 @@ import 'normalize.css';
 import Home from '../imports/ui/pages/home/main.jsx';
 import Editor from '../imports/ui/pages/editor/main.jsx';
 import Viewer from '../imports/ui/pages/viewer/main.jsx';
+import Missing from '../imports/ui/pages/missing/main.jsx'
 
 import '../imports/ui/style/main'
 
-
-var store = createStore(reducer);
-
+let store = createStore(reducer);
 
 Meteor.startup(() => {
     render(
@@ -26,7 +25,7 @@ Meteor.startup(() => {
                 <div id="bootstrap-overrides">
                     <Route render={({location, history, match}) => {
 
-                        var path = location.pathname;
+                        let path = location.pathname;
 
                         return (
                             <div className="default-container">
@@ -34,6 +33,7 @@ Meteor.startup(() => {
                                     <Route exact path="/" component={Home}/>
                                     <Route exact path="/editor" component={Editor}/>
                                     <Route exact path="/viewer/:url" component={Viewer}/>
+                                    <Route component={Missing} />
                                 </Switch>
                             </div>
                         );
@@ -44,15 +44,3 @@ Meteor.startup(() => {
         ,document.getElementById('render-target')
     );
 });
-
-class Missing extends Component{
-    render(){
-        return(
-            <div>
-                <div>
-                    The page you're looking for does not exist :(
-                </div>
-            </div>
-        )
-    }
-}

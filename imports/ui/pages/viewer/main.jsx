@@ -15,12 +15,9 @@ import '../../../vrEngine/components/viewRestrict';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 import Engine from '/imports/vrEngine/main';
+import ErrorPage from '/imports/ui/pages/error/main';
 
 import { withRouter } from 'react-router-dom'
-
-import {connectAdvanced} from "react-redux";
-import {bindActionCreators} from 'redux';
-import * as Actions from "../../../actions/main";
 
 class Viewer extends React.Component {
 
@@ -28,137 +25,28 @@ class Viewer extends React.Component {
     super(props);
     this.state = {
       vr: false ,
-      showModal: false,
-      start: false,
-      score: 0,
-      sprites: []};
+      showModal: false
+    };
   }
 
   componentDidMount(){
     Extras.loaders.registerAll();
   }
 
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
-
-  renderObject(objectData){
-
-    if(!objectData) return "";
-
-    return <Entity {...objectData}/>
-
-  }
-
-  renderSprites(spriteData){
-
-    let self = this;
-
-    if(!spriteData && !Array.isArray(spriteData)) return "";
-
-    return spriteData.map(function(elem){
-
-      if(self.state.start){
-        elem.events={click: self.shootSprite.bind(self, elem.key)};
-        elem.className = "entity";
-        elem.animation__scale = {property: 'scale', dir: 'alternate', dur: 300, loop: true, to: '1.1 1.1 1.1'};
-      }
-
-      return <Entity {...elem} />
-    });
-  }
-
-  renderEnvironment(environment){
-
-    return <Entity environment={{preset: (environment || "default"), shadow: true}}/>
-  }
-
-  renderParticles(particles){
-
-    if(!particles) return "";
-
-    return particles != "none" ?
-      <Entity position="0 10 0"
-              particle-system={{
-                preset: particles.type,
-                particleCount: particles.amount,
-                color: particles.color
-              }} /> : "";
-  }
-
-  renderUserBackground(userBackground){
-
-    if(!userBackground) return "";
-
-    return <Entity primitive="a-curvedimage" src={userBackground}
-                   radius="20"
-                   material="transparent: true" height="10" rotation="0 90 0"
-                   scale="1.0 1.0 1.0" position="0 5 0" geometry="thetaLength:270; thetaStart:-45;"/>;
-  }
-
   share(){
     let self = this;
 
+    console.log("Requesting link with data:", this.props.environment,
+        this.props.particles, this.props.userBackground,
+        this.props.object, this.props.game);
+
     Meteor.call('generateLink', this.props.environment,
       this.props.particles, this.props.userBackground,
-      this.props.object, this.props.sprites, function(err, result){
+      this.props.object, this.props.game, function(err, result){
         if(!err){
           self.setState({link: result, showModal: true});
         }
       })
-  }
-
-  shootSprite(key){
-    let sprites = this.state.sprites.slice(),
-      shotSprite = sprites.findIndex(function(elem){
-        return elem.key == key
-      });
-    sprites.splice(shotSprite, 1);
-    let newScore = this.state.score + 1;
-    this.setState({sprites: sprites, score: newScore});
-  }
-
-  setCoordinates(levels){
-    let x, y, z;
-
-    x = Math.floor(Math.random() * 16) - 8;
-    y = Math.floor(Math.random() * 7) + 2;
-    z = - Math.floor(Math.random() * 15) - 4;
-
-    return x + " " + y + " " + z;
-  }
-
-  createSprites(spriteData){
-    if(this.state.sprites.length == 4) {
-      console.log("Overflow");
-    }
-    else{
-
-      let sprites = [];
-
-      for(let i = 1; i <= 3; i++){
-
-        let iter = {
-          sprite: {src: spriteData, resize: ".75 .75 .75" },
-          position: this.setCoordinates(),
-          key: Math.random()
-        };
-        sprites.push(iter);
-      }
-
-      this.setState({sprites: sprites});
-    }
-
-  }
-
-  endGame(){
-    this.setState({start: false, sprites: []});
-    clearInterval(this.interval);
-  }
-
-  startGame(){
-    this.setState({start: true});
-    this.interval = setInterval(()=>this.createSprites(this.props.sprites[0].sprite.src), 3000);
   }
 
   edit(){
@@ -184,12 +72,7 @@ class Viewer extends React.Component {
 
   render () {
 
-    let Environment =  this.renderEnvironment(this.props.environment),
-      Particles = this.renderParticles(this.props.particles),
-      Image = this.renderUserBackground(this.props.userBackground),
-      Object = this.renderObject(this.props.object),
-      Sprites = this.renderSprites(!this.state.start ? this.props.sprites : this.state.sprites),
-      param = window.location.href + "/",
+    let param = window.location.href + "/",
       link = param.replace("preview", this.state.link);
 
     const modalInstance = (
@@ -229,46 +112,7 @@ class Viewer extends React.Component {
 
         <Engine {...this.props} mode="view"/>
 
-        {/*<Scene vr-mode-ui="enabled: false"
-               fog="type: linear; color: #AAA; far: 0;">
-
-          <a-assets>
-            <a-asset-item id="3d-bear" src="/assets/t1/scene.gltf" />
-            <a-asset-item id="3d-griffin" src="/assets/t2/scene.gltf" />
-            <a-asset-item id="3d-fox" src="/assets/t3/scene.gltf" />
-          </a-assets>
-
-          {Environment} {Particles} {Object} {Sprites} {Image}
-
-          <Entity camera="fov: 50; userHeight: 1.6"
-                  restricted-look-controls="maxPitch: 65; maxYaw: 65"
-                  wasd-controls = "enabled: false">
-            <Entity text={"value: " + (this.state.start ? "Score: " + this.state.score : "") + "; align: center;"} position="0 .35 -1"/>
-            <Entity cursor="fuse: true; fuse-timeout: 300"
-                    raycaster="far: 20; interval: 1000; objects: .entity"
-                    position="0 0 -1"
-                    geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.025;"
-                    material="color: white; shader: flat" >
-              <a-animation begin="fusing" attribute="scale"
-                           fill="backwards" from="1 1 1" to="0.2 0.2 0.2" dur="100" />
-            </Entity>
-          </Entity>
-
-          <a-entity light="type: ambient; color: rgba(255, 255, 255, 0.9); intensity: .55; angle: 20" position="0 1 0" />
-
-          {Array.isArray(this.props.sprites) ?
-            <Entity geometry="primitive: plane; width: 1.5; height: .5;"
-                    className="entity"
-                    events={{click: this.state.start ? this.endGame.bind(this) : this.startGame.bind(this)}}
-                    material="color: blue"
-                    rotation="-60 0 0"
-                    text={"value: " + (this.state.start ? "End Game" : "Start Game") + "; align: center;"}
-                    position="0 .386 -1.5"/>
-            : ""}
-
-        </Scene>*/}
-
-        {!this.state.shared ? <Grid className="menu-container" id="menu-bottom" style={{display: this.state.vr ? "none" : "block"}}>
+        {!this.state.preview ? <Grid className="menu-container" id="menu-bottom" style={{display: this.state.vr ? "none" : "block"}}>
           <Row className="show-grid" style={{height: "50px"}}>
             <Col xs={4} style={{textAlign: "center"}}>
             </Col>
@@ -329,52 +173,54 @@ export default class Container extends React.Component{
   constructor(props){
     super(props);
 
-    this.state = {error: "", shared: false, ready: false};
+    this.state = {
+      error: "",
+      preview: false,
+      ready: false
+    };
   }
 
   componentDidMount(){
 
     let self = this;
 
-    if(this.props.match.params.url != "preview"){
+    if(this.props.match.params.url !== "preview"){
       Meteor.call('getLinkData', this.props.match.params.url, function(err, result){
         if(!err){
-          console.log("GOT DATA!:", result);
-          if(result == "Not Found") self.setState({error: "Not Found"});
-          else self.setState({
-            environment: result.environment,
-            particles: result.particles,
-            userBackground: result.userBackground,
-            object: result.object,
-            sprite: result.sprite,
-            shared: true,
-            ready: true
-          })
+          if(result == "Not Found") self.setState({error: "Link not found!"});
+          else {
+            console.log("FOUND LINK DATA:", {...result})
+
+            self.setState({
+              environment: result.environment,
+              particles: result.particles,
+              userBackground: result.userBackground,
+              object: result.object,
+              game: result.game,
+              ready: true,
+              preview: false
+            })
+          }
         }
       })
     }
     else {
       if(this.props.location.state){
+
+        console.log("FOUND PREVIEW DATA:", {...self.props})
+
         self.setState({
           environment: this.props.location.state.environment,
-          userBackground: this.props.location.state.userBackground,
           particles: this.props.location.state.particles,
+          userBackground: this.props.location.state.userBackground,
           object: this.props.location.state.object,
-          sprite: this.props.location.state.sprite,
+          game: this.props.location.state.game,
           ready: true,
-          shared: false
+          preview: true
         });
       }
       else{
-        self.setState({
-          environment: null,
-          userBackground: null,
-          particles: null,
-          object: null,
-          sprite: null,
-          ready: true,
-          shared: false
-        });
+        self.setState({error: "Failed to transmit data from editor!"});
       }
     }
   }
@@ -385,20 +231,31 @@ export default class Container extends React.Component{
       particles = this.state.particles,
       userBackground = this.state.userBackground,
       object = this.state.object,
-      sprites = this.state.sprite,
+      game = this.state.game,
       ready = this.state.ready,
       Content;
 
-    if(ready){
+    let checkData = [];
+
+    if(typeof environment === 'undefined' || environment === null) checkData.push("No Environment Data");
+    if(typeof particles === 'undefined' || particles === null) checkData.push("No particles Data");
+    if(typeof userBackground === 'undefined' || userBackground === null) checkData.push("No userBackground Data");
+    if(typeof object === 'undefined' || object === null) checkData.push("No object Data");
+    if(typeof game === 'undefined' || game === null) checkData.push("No game Data");
+
+    if(this.state.error){
+      Content = <ErrorPage message={this.state.error} />
+    }
+    else if(ready){
+
+      console.log("VIEWING:", {...this.state});
+
       Content = <ConnectedViewer environment = {environment}
                                  particles = {particles}
                                  userBackground = {userBackground}
                                  object = {object}
-                                 sprites = {sprites}
-                                 shared={this.state.shared}/>
-    }
-    else if(this.state.error){
-      Content = <div>{this.state.error}</div>
+                                 game = {game}
+                                 preview={this.state.preview}/>
     }
     else {
       Content = <Wait/>
